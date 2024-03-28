@@ -9,22 +9,23 @@ const ASSET_ID = "E7eGhQbCaS00O0200d1fx2B101gTHu1G400kF83jxgT9KirI";
 
 const mux = new Mux({ fetch });
 
-const getVideo = cache(async () => {
+const getVideo = async () => {
   const asset = await mux.video.assets.retrieve(ASSET_ID);
   const playbackId = asset.playback_ids?.find((id) => id.policy === "public");
   const videoTrack = asset.tracks?.find((track) => track.type === "video");
   return {
-    ...asset,
+    createdAt: asset.created_at,
+    duration: asset.duration,
     playbackId: playbackId?.id,
     videoTrack,
   };
-});
+};
 
 const title = "Disco Dogs";
 const description = "What if dogs, but disco?";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { playbackId, videoTrack, ...asset } = await getVideo();
+  const { playbackId, videoTrack } = await getVideo();
   return {
     title, // <title />
     description, // <meta name="description" />
@@ -88,7 +89,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const { playbackId, videoTrack, ...asset } = await getVideo();
+  const { playbackId, videoTrack, createdAt, duration } = await getVideo();
 
   const videoObject: WithContext<VideoObject> = {
     // required
@@ -96,11 +97,11 @@ export default async function Home() {
     "@type": "VideoObject",
     name: title,
     thumbnailUrl: `https://image.mux.com/${playbackId}/thumbnail.jpg`,
-    uploadDate: new Date(parseInt(asset.created_at, 10) * 1000).toISOString(),
+    uploadDate: new Date(parseInt(createdAt, 10) * 1000).toISOString(),
     // optional
     description,
     contentUrl: `https://stream.mux.com/${playbackId}.m3u8`,
-    duration: formatISODuration({ seconds: asset.duration }),
+    duration: formatISODuration({ seconds: duration }),
     // todo: we can add more. See typescript type
   };
 

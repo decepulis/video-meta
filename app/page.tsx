@@ -1,4 +1,3 @@
-import { cache } from "react";
 import { Metadata } from "next";
 import { WithContext, VideoObject } from "schema-dts";
 import { formatISODuration } from "date-fns";

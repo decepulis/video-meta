@@ -72,8 +72,9 @@ const videoObject: WithContext<VideoObject> = {
     <!-- twitter tags -->
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:site" content="@muxhq" />
     <!-- twitter image tags -->
-    <meta name="twitter:card" content="summary_large_image" />
+    <!-- <meta name="twitter:card" content="summary_large_image" /> -->
     <meta
       name="twitter:image"
       content={`https://image.mux.com/${playbackId}/thumbnail.jpg?width=1200&height=600`}
@@ -81,6 +82,14 @@ const videoObject: WithContext<VideoObject> = {
     <meta name="twitter:image:width" content="1200" />
     <meta name="twitter:image:height" content="600" />
     <meta name="twitter:image:alt" content="Disco Dogs" />
+    <!-- twitter video player tags -->
+    <meta name="twitter:card" content="player" />
+    <meta
+      name="twitter:player"
+      content={`https://mux-video-meta.vercel.app/frame/${playbackId}`}
+    />
+    <meta name="twitter:player:width" content={`${width}`} />
+    <meta name="twitter:player:height" content={`${height}`} />
 
     <!-- ld+json -->
     <script

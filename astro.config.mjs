@@ -11,6 +11,6 @@ export default defineConfig({
     // that something's changed and it should invalidate the cache.
     isr: true,
     // oembed api relies on query params, so must be dynamic
-    exclude: ["api/oembed"],
+    exclude: ["/api/oembed"],
   }),
 });

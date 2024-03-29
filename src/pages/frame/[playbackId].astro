@@ -1,0 +1,30 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+export const prerender = false;
+const { playbackId } = Astro.params;
+---
+
+<Layout>
+  <script>
+    import "@mux/mux-player";
+  </script>
+  <mux-player playback-id={playbackId}></mux-player>
+</Layout>
+
+<style is:global>
+  html,
+  body {
+    height: 100%;
+    background-color: #000;
+  }
+  body {
+    margin: 0px;
+    overflow: hidden;
+  }
+  mux-player {
+    height: 100%;
+    width: 100%;
+    display: block;
+  }
+</style>

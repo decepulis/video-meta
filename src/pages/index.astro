@@ -83,7 +83,11 @@ const videoObject: WithContext<VideoObject> = {
     <meta name="twitter:image:alt" content="Disco Dogs" />
 
     <!-- ld+json -->
-    <script type="application/ld+json" set:html={JSON.stringify(videoObject)} />
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(videoObject)}
+    />
 
     <!-- oembed alt -->
     <link

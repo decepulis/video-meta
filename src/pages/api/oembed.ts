@@ -40,7 +40,6 @@ export const GET: APIRoute = async ({ request }) => {
       thumbnail_url: `https://image.mux.com/${playbackId}/thumbnail.jpg`,
       thumbnail_width: width,
       thumbnail_height: height,
-      // view at https://oembed.link/
     }),
     {
       headers: { "Content-Type": "application/json" },

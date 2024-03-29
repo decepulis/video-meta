@@ -102,12 +102,15 @@ const videoObject: WithContext<VideoObject> = {
     <link
       rel="alternate"
       type="application/json+oembed"
-      href="https://mux-video-meta.vercel.app/api/oembed?type=json&url=https://mux-video-meta.vercel.app/frame/${playbackId}"
+      href={`https://mux-video-meta.vercel.app/api/oembed?type=json&url=https://mux-video-meta.vercel.app/frame/${playbackId}`}
+      title="Disco Dogs oEmbed"
     />
+    <!-- xml not implemented -->
     <!-- <link
       rel="alternate"
       type="application/xml+oembed"
       href="https://mux-video-meta.vercel.app/api/oembed?type=xml&url=https://mux-video-meta.vercel.app/frame/${playbackId}"
+      title="Disco Dogs oEmbed"
     /> -->
   </Fragment>
 

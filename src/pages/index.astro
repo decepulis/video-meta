@@ -1,0 +1,127 @@
+---
+import { formatISODuration } from "date-fns";
+import type { WithContext, VideoObject } from "schema-dts";
+
+import Layout from "../layouts/Layout.astro";
+import getVideo from "../lib/get-video";
+
+// get video
+const ASSET_ID = "E7eGhQbCaS00O0200d1fx2B101gTHu1G400kF83jxgT9KirI";
+const { playbackId, createdAt, duration, width, height } =
+  await getVideo(ASSET_ID);
+
+// shared metadata
+const title = "Disco Dogs";
+const description = "What if dogs, but disco?";
+
+// ld+json
+const videoObject: WithContext<VideoObject> = {
+  // required
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: title,
+  thumbnailUrl: `https://image.mux.com/${playbackId}/thumbnail.jpg`,
+  uploadDate: new Date(parseInt(createdAt, 10) * 1000).toISOString(),
+  // optional
+  description,
+  contentUrl: `https://stream.mux.com/${playbackId}.m3u8`,
+  duration: formatISODuration({ seconds: duration }),
+  // we can add so much more. See typescript type
+};
+---
+
+<Layout>
+  <Fragment slot="head">
+    <!-- basic meta tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Darius Cepulis" />
+    <link rel="author" href="https://x.com/darius_cepulis" />
+    <meta name="author" content="Matt McClure" />
+    <link rel="author" href="https://x.com/matt_mcclure" />
+    <meta name="keywords" content="dogs,disco,dance,party" />
+
+    <!-- open graph tags -->
+    <meta property="og:url" content="https://mux-video-meta.vercel.app/" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <!-- open graph social image tags -->
+    <meta
+      property="og:image"
+      content={`https://image.mux.com/${playbackId}/thumbnail.jpg?width=1200&height=630`}
+    />
+    <meta
+      property="og:image:secure_url"
+      content={`https://image.mux.com/${playbackId}/thumbnail.jpg?width=1200&height=630`}
+    />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Disco Dogs" />
+    <!-- open graph social video tags -->
+    <meta
+      property="og:video"
+      content={`https://stream.mux.com/${playbackId}/high.mp4`}
+    />
+    <meta property="og:video:type" content="video/mp4" />
+    <meta property="og:video:width" content={`${width}`} />
+    <meta property="og:video:height" content={`${height}`} />
+    <!-- open graph video metadata tags -->
+    <meta property="og:type" content="video.movie" />
+
+    <!-- twitter tags -->
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <!-- twitter image tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content={`https://image.mux.com/${playbackId}/thumbnail.jpg?width=1200&height=600`}
+    />
+    <meta name="twitter:image:width" content="1200" />
+    <meta name="twitter:image:height" content="600" />
+    <meta name="twitter:image:alt" content="Disco Dogs" />
+
+    <!-- ld+json -->
+    <script type="application/ld+json" set:html={JSON.stringify(videoObject)} />
+
+    <!-- oembed alt -->
+    <link
+      rel="alternate"
+      type="application/json+oembed"
+      href="https://mux-video-meta.vercel.app/api/oembed?type=json&url=https://mux-video-meta.vercel.app/frame/${playbackId}"
+    />
+    <!-- <link
+      rel="alternate"
+      type="application/xml+oembed"
+      href="https://mux-video-meta.vercel.app/api/oembed?type=xml&url=https://mux-video-meta.vercel.app/frame/${playbackId}"
+    /> -->
+  </Fragment>
+
+  <main>
+    <h1>Video Meta Tags</h1>
+    <mux-player
+      playback-id={playbackId}
+      style={`--width: ${width}; --height: ${height};`}
+    >
+    </mux-player>
+    <script>
+      import "@mux/mux-player";
+    </script>
+  </main>
+
+  <style>
+    main {
+      max-width: 768px;
+      margin: 0 auto;
+    }
+    iframe,
+    mux-player {
+      display: flex;
+      background-color: black;
+      width: 100%;
+      height: auto;
+      aspect-ratio: var(--width) / var(--height);
+    }
+  </style>
+</Layout>

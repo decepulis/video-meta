@@ -9,11 +9,13 @@ export const GET: APIRoute = async ({ request }) => {
   const { searchParams } = new URL(request.url);
   const type = searchParams.get("type");
   if (type !== "json") {
-    return new Response("Invalid type. Expected json.", { status: 400 });
+    return new Response(`Invalid type. Expected json. Got ${type}`, {
+      status: 400,
+    });
   }
   const url = searchParams.get("url");
   if (!url) {
-    return new Response("Missing url", { status: 400 });
+    return new Response(`Missing url. Got ${url}`, { status: 400 });
   }
 
   // get the playback id from the url

@@ -67,7 +67,17 @@ const videoObject: WithContext<VideoObject> = {
     <meta property="og:video:width" content={`${width}`} />
     <meta property="og:video:height" content={`${height}`} />
     <!-- open graph video metadata tags -->
-    <meta property="og:type" content="video.movie" />
+    <meta property="og:type" content="video.other" />
+    <meta property="video:duration" content={`${duration}`} />
+    <meta
+      property="video:release_date"
+      content={new Date(parseInt(createdAt, 10) * 1000).toISOString()}
+    />
+    <meta property="video:tag" content="dogs" />
+    <meta property="video:tag" content="disco" />
+    <meta property="video:tag" content="dance" />
+    <meta property="video:tag" content="party" />
+    <!-- and more https://ogp.me/#type_video -->
 
     <!-- twitter tags -->
     <meta name="twitter:title" content={title} />
